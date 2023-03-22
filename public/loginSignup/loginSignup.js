@@ -16,6 +16,7 @@ async function signUp(e) {
 	const userDetails = {
 		name: e.target.name.value,
 		email: e.target.email.value,
+		phoneNumber: e.target.phoneNumber.value,
 		password: e.target.password.value
 	};
 	try{
