@@ -26,13 +26,42 @@ async function signUp(e) {
 			alert(res.data.message);
 			container.classList.remove("right-panel-active");
         }
+		else {
+			throw new Error(res);
+		}
     }
     catch(error) {
 		alert(error.response.data.message);
-        console.log(error.response);
+        console.log(error);
 		e.target.name.value = '';
 		e.target.email.value = '';
 		e.target.phoneNumber.value = '';
 		e.target.password.value = '';
     }
+}
+
+// SignIn
+async function userSignin(e) {
+	e.preventDefault();
+	emailInput = e.target.email;
+	passwordInput = e.target.password;
+	try{
+		const userCreds = {
+			email: emailInput.value,
+			password: passwordInput.value
+		}
+		const res = await axios.post("http://localhost:3000/user/login", userCreds);
+		if(res.status === 200){
+			alert(res.data.message);
+		}
+		else {
+			throw new Error(res);
+		}
+	}
+	catch (error) {
+		alert(error.message);
+        console.log(error);
+	}
+	emailInput.value = '';
+	passwordInput.value = '';
 }
