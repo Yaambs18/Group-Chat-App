@@ -1,0 +1,31 @@
+{
+  "name": "group-chat-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js",
+    "start-server": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yaambs18/Group-Chat-App.git"
+  },
+  "author": "Yansh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yaambs18/Group-Chat-App/issues"
+  },
+  "homepage": "https://github.com/Yaambs18/Group-Chat-App#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "express": "^4.18.2",
+    "mysql2": "^3.2.0",
+    "sequelize": "^6.29.3"
+  },
+  "devDependencies": {
+    "cors": "^2.8.5",
+    "nodemon": "^2.0.21"
+  }
+}

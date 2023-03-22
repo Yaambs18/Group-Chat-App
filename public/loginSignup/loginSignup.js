@@ -22,7 +22,7 @@ async function signUp(e) {
 	try{
 		const res = await axios.post('http://localhost:3000/user/signup', userDetails);
         if(res.status === 201){
-			alert(res.message);
+			alert(res.data.message);
 			container.classList.remove("right-panel-active");
         }
         else{
