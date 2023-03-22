@@ -53,13 +53,14 @@ async function userSignin(e) {
 		const res = await axios.post("http://localhost:3000/user/login", userCreds);
 		if(res.status === 200){
 			alert(res.data.message);
+			localStorage.setItem('token', res.data.token);
 		}
 		else {
 			throw new Error(res);
 		}
 	}
 	catch (error) {
-		alert(error.message);
+		alert(error.response.data.message);
         console.log(error);
 	}
 	emailInput.value = '';

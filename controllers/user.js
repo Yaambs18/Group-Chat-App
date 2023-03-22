@@ -1,6 +1,11 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
+
+const generateToken = async function (id){
+    return jwt.sign({ userId: id }, process.env.TOKEN_SECRET);
+}
 
 function isStringInvalid(string){
     if(string == undefined || string.length === 0){
@@ -39,6 +44,33 @@ const addUser = async (req, res, next) => {
     }
 }
 
+const loginUser = async (req, res, next) => {
+    try{
+        const { email, password } = req.body;
+        if(isStringInvalid(email) || isStringInvalid(password)){
+            return res.status(400).json({ success: false, message : 'Bad Parameters: Something is missing'});
+        }
+        const user = await User.findOne({ where: { email: email }});
+        if(!user) {
+            return res.status(404).json({ success: false, message: 'User Not Found, Please Sign Up!' });
+        }
+
+        const result = await bcrypt.compare(password, user.password);
+        if(result){
+            const jwtToken = await generateToken(user.id);
+            res.json({success: true, token: jwtToken, message: 'User Login Successful'});
+        }
+        else {
+            res.status(401).json({success: false, message: "User not authorized !!!"});
+        }        
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({ success: false, message: 'Something went wrong, Please try again !!' });
+    }
+}
+
 module.exports = {
-    addUser
+    addUser,
+    loginUser
 }
