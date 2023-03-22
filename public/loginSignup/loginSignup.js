@@ -21,16 +21,18 @@ async function signUp(e) {
 	};
 	try{
 		const res = await axios.post('http://localhost:3000/user/signup', userDetails);
+		console.log(res);
         if(res.status === 201){
 			alert(res.data.message);
 			container.classList.remove("right-panel-active");
         }
-        else{
-            throw new Error(res.status);
-        }
     }
     catch(error) {
-        document.body.innerHTML += `<h1>Error: Request Failed with status code ${error}</h1>`;
-        console.log(err);
+		alert(error.response.data.message);
+        console.log(error.response);
+		e.target.name.value = '';
+		e.target.email.value = '';
+		e.target.phoneNumber.value = '';
+		e.target.password.value = '';
     }
 }

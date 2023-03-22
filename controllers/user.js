@@ -26,11 +26,16 @@ const addUser = async (req, res, next) => {
             phoneNumber: phoneNumber,
             password: passHash
         })
-        res.status(201).json({succes: true, message: 'Successfully created a new user'});
+        res.status(201).json({succes: true, message: 'Successfuly signed up'});
     }
     catch(err) {
         console.log(err);
-        res.sendStatus(500).json({succes: false, Error: err});        
+        if(err.message == 'Validation error'){
+            res.status(409).json({succes: false, message: 'User already exists, Please Login'})
+        }
+        else{
+            res.sendStatus(500).json({succes: false, message: err});        
+        }
     }
 }
 
