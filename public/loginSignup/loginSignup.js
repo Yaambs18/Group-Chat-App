@@ -54,6 +54,7 @@ async function userSignin(e) {
 		if(res.status === 200){
 			alert(res.data.message);
 			localStorage.setItem('token', res.data.token);
+			window.location.href = '../chatApp/homePage.html'
 		}
 		else {
 			throw new Error(res);

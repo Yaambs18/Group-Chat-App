@@ -70,7 +70,23 @@ const loginUser = async (req, res, next) => {
     }
 }
 
+const getUsers =async (req, res, next) => {
+    const reqUser = req.userId;
+    try {
+        const users = await User.findAll({
+            attributes: ['id', 'name', 'email']
+        })
+        res.json(users);
+    }
+    catch(error) {
+        console.log(error);
+        res.status(500).json({ success: false, message: 'Something went wrong' });
+    }
+
+}
+
 module.exports = {
     addUser,
-    loginUser
+    loginUser,
+    getUsers
 }
