@@ -1,8 +1,11 @@
 const msgData = document.querySelector('#msg-text')
 
+document.addEventListener('DOMContentLoaded', getMessages);
+
+const token = localStorage.getItem('token');
+
 async function sendMsg(e) {
     e.preventDefault();
-    const token = localStorage.getItem('token');
     try {
         const msgObj = {
             token: token,
@@ -19,4 +22,19 @@ async function sendMsg(e) {
         }
     }
     msgData.value = '';
+}
+
+async function getMessages() {
+    try{
+        const res = await axios.get('http://localhost:3000/chat/messages', { headers: { 'Authorization': token }});
+        console.log(res.data);
+    }
+    catch(error) {
+        console.log(error);
+        if(error.response){
+            alert(error.response.data.message);
+        }else{
+            alert(error.message);
+        }
+    }
 }
