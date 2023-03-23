@@ -1,0 +1,78 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	/* background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e); */
+    background-color: white;
+    height: 100vh;
+}
+
+img {
+    height: 40px;
+    float: left;
+}
+
+.container{
+    background: transparent;
+    display: flex;
+    height: 86%;
+    width: 90%;
+    margin-top: 10px;
+  	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+			0 10px 10px rgba(0,0,0,0.22);
+    padding: 0;
+}
+
+.people-list{
+    width: 30%;
+    background-color: aliceblue;
+    border-right: solid #0cb2db 2px;
+}
+
+.people-list li{
+    list-style: none;
+}
+
+.people-list li:hover {
+    background: #51a1d6;
+    cursor: pointer;
+  }
+  
+  .people-list li.active {
+    background: #51a1d6;
+  }
+
+.chat-card {
+    width: 70%;
+}
+
+.chat-card .chat-user {
+    position: sticky;
+    background-color: aliceblue;
+}
+
+.chat-card-msgs {
+    height: 79.6%;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-card-msgs .send-msg {
+    text-align: end;
+    background-color: rgb(240, 230, 230);
+    margin: 1px;
+}
+
+.chat-card-msgs .rec-msg {
+    background-color: rgb(211, 247, 244);
+    margin: 1px;
+}
+
+.chat-card .msg-form {
+    background-color: aliceblue;
+}
+
+.online {
+    color: #86c541;
+  }
