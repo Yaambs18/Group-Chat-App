@@ -1,11 +1,11 @@
 const Chat = require('../models/chat');
 
 const addUserMsg = async (req, res, next) => {
-    const userId = req.userId;
+    const user = req.user;
     try{
-        const result = await Chat.create({
+        const result = await user.createChat({
             message: req.body.msg,
-            userId: userId
+            name: user.name
         });
         res.status(201).json({ success: true, message: 'Message sent successfuly.'});
     }
@@ -16,7 +16,7 @@ const addUserMsg = async (req, res, next) => {
 }
 
 const getMessages = async (req, res, next) => {
-    const userId = req.userId;
+    const user = req.user;
     try{
         const result = await Chat.findAll();
         res.status(201).json({ success: true, messages: result});

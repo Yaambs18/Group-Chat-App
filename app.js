@@ -24,7 +24,9 @@ app.use('/chat', chatRoutes);
 User.hasMany(Chat);
 Chat.belongsTo(User, { constraints: true, onDelete: 'CASCADE'});
 
-sequilize.sync().then((result) => {
+sequilize
+  .sync()
+  .then((result) => {
     app.listen(3000);
-})
-.catch(err => console.log(err));
+  })
+  .catch((err) => console.log(err));

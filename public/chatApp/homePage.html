@@ -37,31 +37,24 @@
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit"><i class="fa fa-search"></i></button>
             </form>
-            <li class="chat-user">
+            <!-- <li class="chat-user">
                 <img class="rounded-5" src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar"/>
                 <div class="about">
                     <h6 class="name m-0 ps-2">Yansh Bhardwaj</h6>
                     <i class="fa fa-circle online ps-2"> online</i>
                 </div>
-            </li>           
+            </li>            -->
         </div>
         <div class="chat-card">
             <div class="chat-user d-flex p-1">
                 <img class="rounded-5" src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar"/>
                 <div class="about">
-                    <h6 class="name m-0 ps-2">Yansh Bhardwaj</h6>
-                    <i class="fa fa-circle online ps-2"> online</i>
+                    <h6 class="name m-0 ps-2">Group-A</h6>
+                    <!-- <i class="fa fa-circle online ps-2"> online</i> -->
                 </div>
             </div>
-            <div class="chat-card-msgs">
-                <div class="send-msg pe-2">Hi</div>
-                <div class="rec-msg ps-2">Hi</div>
-                <div class="send-msg pe-2">How are you ?</div>
-                <div class="rec-msg ps-2">ya, I'm fine. What about you</div>
-                <div class="rec-msg ps-2">I am also fine</div>
-                <div class="send-msg pe-2">Bro actually, I need help in one task.</div>
-
-
+            <div class="chat-card-msgs" id="chat-msgs-box">
+                
             </div>
             <form class="msg-form d-flex p-2" onsubmit="sendMsg(event)">
                 <input class="form-control me-2" id="msg-text" name="msg" type="text" placeholder="Type a message" aria-label="Search">

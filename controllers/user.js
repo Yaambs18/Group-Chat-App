@@ -71,7 +71,7 @@ const loginUser = async (req, res, next) => {
 }
 
 const getUsers =async (req, res, next) => {
-    const reqUser = req.userId;
+    const reqUser = req.user;
     try {
         const users = await User.findAll({
             attributes: ['id', 'name', 'email']

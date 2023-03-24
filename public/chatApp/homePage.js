@@ -9,8 +9,10 @@ window.addEventListener('DOMContentLoaded', async () => {
         const res = await axios.get(`http://localhost:3000/user`, { headers: {'Authorization': token }});
         const users = res.data;
         for(user of users) {
+            userJoinedChat(user);
             showUsers(user);
         }
+        getMessages();
     }
     catch(error) {
         console.log(error);
@@ -49,6 +51,16 @@ function showUsers(user) {
 
     userLi.appendChild(aboutDiv);
     userList.append(userLi);
+}
+
+function userJoinedChat(user) {
+    const chatBox = document.querySelector('#chat-msgs-box');
+
+    const divElem = document.createElement('div');
+    divElem.className = 'chat-joined-user';
+    divElem.textContent = `${user.name} joined`;
+
+    chatBox.appendChild(divElem);
 }
 
 const logOutBtn = document.getElementById('logOut');
