@@ -22,6 +22,7 @@ async function sendMsg(e) {
             msg: msgData.value
         }
         const result = await axios.post('http://localhost:3000/chat/userMsg', msgObj, { headers: {'Authorization': token }});
+        displayMessage(result.data.message);
     }
     catch(error) {
         console.log(error);
@@ -36,11 +37,35 @@ async function sendMsg(e) {
 
 async function getMessages() {
     try{
-        const res = await axios.get('http://localhost:3000/chat/messages', { headers: { 'Authorization': token }});
-        console.log(res.data);
-        for(message of res.data.messages){
+        let lastMsgId = -1;
+        const oldMsgs = JSON.parse(localStorage.getItem('oldMsgs'));
+        const chatBox = document.querySelector('#chat-msgs-box');
+        chatBox.innerHTML = "";
+        
+        if(oldMsgs){
+            for(message of oldMsgs){
+                displayMessage(message);
+            }
+            console.log(oldMsgs);
+            lastMsgId = oldMsgs[oldMsgs.length-1].id;
+        }
+        const res = await axios.get(`http://localhost:3000/chat/messages?lastMsgId=${lastMsgId}`, { headers: { 'Authorization': token }});
+        // console.log(res.data);
+        const resMessages = res.data.messages;
+        for(message of resMessages){
             displayMessage(message);
         }
+        let allMsgs;
+        if(!oldMsgs){
+            allMsgs = resMessages;
+        }else{
+            allMsgs = oldMsgs.concat(resMessages)
+        }
+        if(allMsgs.length > 12){
+            allMsgs.splice(0, allMsgs.length - 12);
+        }
+        // console.log(resMessages);
+        localStorage.setItem('oldMsgs', JSON.stringify(allMsgs));
     }
     catch(error) {
         console.log(error);

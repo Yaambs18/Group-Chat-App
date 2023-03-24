@@ -24,6 +24,26 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
+setInterval(async () => {
+    try{
+        // const res = await axios.get(`http://localhost:3000/user`, { headers: {'Authorization': token }});
+        // const users = res.data;
+        // for(user of users) {
+        //     userJoinedChat(user);
+        //     showUsers(user);
+        // }
+        getMessages();
+    }
+    catch(error) {
+        console.log(error);
+        if(error.response){
+            alert(error.response.data.message);
+        }else{
+            alert(error.message);
+        }
+    }
+}, 1000);
+
 function showUsers(user) {
     const userList = document.querySelector('#users-list');
 

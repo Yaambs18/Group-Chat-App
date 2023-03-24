@@ -3,8 +3,7 @@
 }
 
 body {
-	/* background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e); */
-    background-color: white;
+	background: rgb(227, 235, 206);
     height: 100vh;
 }
 

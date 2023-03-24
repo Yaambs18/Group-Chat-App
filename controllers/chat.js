@@ -1,4 +1,5 @@
 const Chat = require('../models/chat');
+const { Op } = require('sequelize');
 
 const addUserMsg = async (req, res, next) => {
     const user = req.user;
@@ -7,7 +8,7 @@ const addUserMsg = async (req, res, next) => {
             message: req.body.msg,
             name: user.name
         });
-        res.status(201).json({ success: true, message: 'Message sent successfuly.'});
+        res.status(201).json({ success: true, message: result});
     }
     catch(error) {
         console.log(error);
@@ -18,7 +19,14 @@ const addUserMsg = async (req, res, next) => {
 const getMessages = async (req, res, next) => {
     const user = req.user;
     try{
-        const result = await Chat.findAll();
+        const { lastMsgId } = req.query;
+        const result = await Chat.findAll({
+            where: {
+                id: {
+                    [Op.gt]: lastMsgId
+                }
+            }
+        });
         res.status(201).json({ success: true, messages: result});
     }
     catch(error) {
