@@ -6,10 +6,13 @@ dotenv.config();
 
 const User = require('./models/user');
 const Chat = require('./models/chat');
+const Group = require('./models/group');
+const GroupMembers = require('./models/groupMembers');
 
 const sequilize = require("./util/database");
 const userRoutes = require('./routes/user');
 const chatRoutes = require('./routes/chat');
+const groupRoutes = require('./routes/group');
 
 const app = express();
 
@@ -20,9 +23,16 @@ app.use(express.json());
 
 app.use('/user', userRoutes);
 app.use('/chat', chatRoutes);
+app.use('/group', groupRoutes);
 
 User.hasMany(Chat);
 Chat.belongsTo(User, { constraints: true, onDelete: 'CASCADE'});
+
+User.belongsToMany(Group, { through: GroupMembers });
+Group.belongsToMany(User, { through: GroupMembers });
+
+Group.hasMany(Chat);
+Chat.belongsTo(Group, { constraints: true, onDelete: 'CASCADE' });
 
 sequilize
   .sync()

@@ -14,15 +14,21 @@ function parseJwt (token) {
     return JSON.parse(jsonPayload);
 }
 
-async function sendMsg(e) {
-    e.preventDefault();
+async function sendMsg(category, categoryId) {
+    event.preventDefault();
     try {
         const msgObj = {
             token: token,
             msg: msgData.value
         }
-        const result = await axios.post('http://localhost:3000/chat/userMsg', msgObj, { headers: {'Authorization': token }});
-        displayMessage(result.data.message);
+        if(category==='group'){
+            const result = await axios.post(`http://localhost:3000/chat/grpMsg/${categoryId}`, msgObj, { headers: {'Authorization': token }});
+            displayMessage(result.data.message);
+        }
+        else if(category === 'user'){
+            const result = await axios.post(`http://localhost:3000/chat/userMsg/${categoryId}`, msgObj, { headers: {'Authorization': token }});
+            displayMessage(result.data.message);
+        }
     }
     catch(error) {
         console.log(error);
@@ -35,21 +41,21 @@ async function sendMsg(e) {
     msgData.value = '';
 }
 
-async function getMessages() {
+async function getMessages(category, categoryId) {
     try{
         let lastMsgId = -1;
         const oldMsgs = JSON.parse(localStorage.getItem('oldMsgs'));
         const chatBox = document.querySelector('#chat-msgs-box');
         chatBox.innerHTML = "";
         
-        if(oldMsgs){
+        if(oldMsgs && oldMsgs.length>0){
             for(message of oldMsgs){
                 displayMessage(message);
             }
             console.log(oldMsgs);
             lastMsgId = oldMsgs[oldMsgs.length-1].id;
         }
-        const res = await axios.get(`http://localhost:3000/chat/messages?lastMsgId=${lastMsgId}`, { headers: { 'Authorization': token }});
+        const res = await axios.get(`http://localhost:3000/chat/messages?category=${category}&categoryId=${categoryId}&lastMsgId=${lastMsgId}`, { headers: { 'Authorization': token }});
         // console.log(res.data);
         const resMessages = res.data.messages;
         for(message of resMessages){

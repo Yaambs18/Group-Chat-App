@@ -27,7 +27,26 @@ img {
     width: 30%;
     background-color: aliceblue;
     border-right: solid #0cb2db 2px;
+}
+
+.people-list .people-list-actions{
+    display: flex;
+}
+
+.people-list #users-list {
+    height: 83%;
     overflow: scroll;
+}
+
+.people-list #groups-list {
+    height: 83%;
+    overflow: scroll;
+    display: none;
+}
+
+.people-list .list-type-selector {
+    display: flex;
+    justify-content: space-around;
 }
 
 .people-list li{
@@ -49,8 +68,12 @@ img {
     background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
 }
 
-.chat-card .chat-user {
+.chat-card .chat-card-title {
     background-color: aliceblue;
+}
+
+.chat-card .chat-card-title button{
+    margin-left: auto;
 }
 
 .chat-card-msgs {

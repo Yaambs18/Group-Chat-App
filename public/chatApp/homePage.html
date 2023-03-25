@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="./homePage.css">
     <script src="./homePage.js" defer></script>
     <script src="./chat.js" defer></script>
+    <script src="./groups.js" defer></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
@@ -32,11 +33,24 @@
         </div>
     </nav>
     <div class="container">
-        <div class="people-list" id="users-list">
-            <form class="search-people d-flex p-2" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit"><i class="fa fa-search"></i></button>
-            </form>
+        <div class="people-list">
+            <div class="people-list-actions">
+                <form class="search-people d-flex p-2" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit"><i class="fa fa-search"></i></button>
+                </form>
+                <button class="btn btn-outline-info m-2" id="group-btn"><i class="fa fa-users"></i></button>
+            </div>
+            <div class="list-type-selector">
+                <input class="btn btn-outline-success" type="button" name="people" id="select-people" value="People">
+                <input class="btn btn-outline-success" type="button" name="group" id="select-group" value="Groups">
+            </div>
+            <div id="users-list">
+
+            </div>
+            <div id="groups-list">
+
+            </div>
             <!-- <li class="chat-user">
                 <img class="rounded-5" src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar"/>
                 <div class="about">
@@ -46,17 +60,18 @@
             </li>            -->
         </div>
         <div class="chat-card">
-            <div class="chat-user d-flex p-1">
+            <div class="chat-card-title d-flex p-1">
                 <img class="rounded-5" src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar"/>
                 <div class="about">
                     <h6 class="name m-0 ps-2">Group-A</h6>
                     <!-- <i class="fa fa-circle online ps-2"> online</i> -->
                 </div>
+                <button class="btn btn-secondary"><i class="fa fa-user-plus"> Add-User</i></button>
             </div>
             <div class="chat-card-msgs" id="chat-msgs-box">
                 
             </div>
-            <form class="msg-form d-flex p-2" onsubmit="sendMsg(event)">
+            <form class="msg-form d-flex p-2" id="user-msg-box">
                 <input class="form-control me-2" id="msg-text" name="msg" type="text" placeholder="Type a message" aria-label="Search">
                 <button class="btn btn-outline-success" id="send-msg-btn" type="submit"><i class="fa fa-send"></i></button>
             </form>    
