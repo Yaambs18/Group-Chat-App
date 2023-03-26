@@ -55,7 +55,7 @@ const getMessages = async (req, res, next) => {
         else if(category === 'user'){
             const result = await Chat.findAll({
                 where: {
-                    [Op.or]: [
+                    [Op.and]: [
                         {userId: user.id},
                         {receiverUserId: categoryId}
                     ]
