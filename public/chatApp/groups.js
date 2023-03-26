@@ -14,7 +14,7 @@ async function createGroup() {
         return;
     }
     try{
-        const res = await axios.post('http://localhost:3000/group/createGroup', { groupName: groupName }, { headers: { 'Authorization': token }})
+        const res = await axios.post('http://3.238.138.102:3000/group/createGroup', { groupName: groupName }, { headers: { 'Authorization': token }})
     }
     catch(error) {
         console.log(error);
@@ -32,7 +32,7 @@ async function showGroups() {
         const groupsList = document.getElementById('groups-list');
         groupsList.style.display = 'block';
 
-        const res = await axios.get('http://localhost:3000/group', { headers: { 'Authorization': token }})
+        const res = await axios.get('http://3.238.138.102:3000/group', { headers: { 'Authorization': token }})
         const groups = res.data.groups
 
         groupsList.innerHTML = '';
@@ -139,7 +139,7 @@ async function addGroupUsers(groupId) {
         return;
     }
     try{
-        const addUserRes = await axios.post(`http://localhost:3000/group/${groupId}/addUser`, {userEmail: userEmail}, { headers: { 'Authorization': token }});
+        const addUserRes = await axios.post(`http://3.238.138.102:3000/group/${groupId}/addUser`, {userEmail: userEmail}, { headers: { 'Authorization': token }});
         alert(addUserRes.data.message);
     }
     catch(error) {
@@ -154,7 +154,7 @@ async function addGroupUsers(groupId) {
 
 async function getGroupUsers(group) {
     try {
-        const res = await axios.get(`http://localhost:3000/group/${group.id}/users`, { headers: { 'Authorization': token }});
+        const res = await axios.get(`http://3.238.138.102:3000/group/${group.id}/users`, { headers: { 'Authorization': token }});
         const { groupMembers } = res.data;
         const userList = document.querySelector('#chat-msgs-box');
         userList.innerHTML = "";
@@ -212,7 +212,7 @@ function showGroupUsers(groupUser, groupObj) {
 
 async function removeGroupUsers(groupId, userId) {
     try {
-        const deleteRes = await axios.delete(`http://localhost:3000/group/${groupId}/user/${userId}`, { headers: { 'Authorization': token }});
+        const deleteRes = await axios.delete(`http://3.238.138.102:3000/group/${groupId}/user/${userId}`, { headers: { 'Authorization': token }});
         alert(deleteRes.data.message);
     } catch (error) {
         console.log(error);

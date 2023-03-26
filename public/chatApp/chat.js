@@ -22,7 +22,7 @@ async function sendMsg(category, categoryId) {
             msg: msgData.value
         }
         if(category==='group'){
-            const result = await axios.post(`http://localhost:3000/chat/grpMsg/${categoryId}`, msgObj, { headers: {'Authorization': token }});
+            const result = await axios.post(`http://3.238.138.102:3000/chat/grpMsg/${categoryId}`, msgObj, { headers: {'Authorization': token }});
             displayMessage(result.data.message);
         }
         else if(category === 'user'){
@@ -56,7 +56,7 @@ async function getMessages(category, categoryId) {
             console.log(oldMsgs);
             lastMsgId = oldMsgs[oldMsgs.length-1].id;
         }
-        const res = await axios.get(`http://localhost:3000/chat/messages?category=${category}&categoryId=${categoryId}&lastMsgId=${lastMsgId}`, { headers: { 'Authorization': token }});
+        const res = await axios.get(`http://3.238.138.102:3000/chat/messages?category=${category}&categoryId=${categoryId}&lastMsgId=${lastMsgId}`, { headers: { 'Authorization': token }});
         // console.log(res.data);
         const resMessages = res.data.messages;
         for(message of resMessages){

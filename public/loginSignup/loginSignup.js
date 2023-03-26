@@ -20,7 +20,7 @@ async function signUp(e) {
 		password: e.target.password.value
 	};
 	try{
-		const res = await axios.post('http://localhost:3000/user/signup', userDetails);
+		const res = await axios.post('http://3.238.138.102:3000/user/signup', userDetails);
 		console.log(res);
         if(res.status === 201){
 			alert(res.data.message);
@@ -50,7 +50,7 @@ async function userSignin(e) {
 			email: emailInput.value,
 			password: passwordInput.value
 		}
-		const res = await axios.post("http://localhost:3000/user/login", userCreds);
+		const res = await axios.post("http://3.238.138.102:3000/user/login", userCreds);
 		if(res.status === 200){
 			alert(res.data.message);
 			localStorage.setItem('token', res.data.token);
