@@ -8,6 +8,10 @@ const createGroup = async (req, res, next) => {
         const group = await user.createGroup({
             groupName: req.body.groupName
         });
+        await GroupMembers.update(
+            { admin: true},
+            { where: { groupId: group.id, userId: user.id }}
+        )
         res.status(201).json({ success: true, group})
     }
     catch(error) {
@@ -32,6 +36,10 @@ const addGroupUser = async (req, res, next) => {
     const user = req.user;
     try{
         const { groupId } = req.params;
+        const userRole = await GroupMembers.findOne({ where: { groupId:groupId, userId:reqUser.id }});
+        if(!userRole.admin){
+            return res.status(403).json({ success: false, message: 'Unauthorized User'});
+        }
         const group = await Group.findByPk(groupId);
         const userEmail = req.body.userEmail;
         console.log(req.body);
@@ -50,8 +58,47 @@ const addGroupUser = async (req, res, next) => {
     }
 }
 
+const getGroupUsers = async (req, res, next) => {
+    try {
+        const reqUser = req.user;
+        const { groupId } = req.params;
+        const groupMembers = await User.findAll({
+            attributes: ["id", "name", "email"],
+            include: {
+                model: Group,
+                attributes: [],
+                where: { id: groupId }
+            }
+        });
+        res.json({ success: true, groupMembers: groupMembers });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ success: false, message: 'Something went wrong' });
+    }
+}
+
+const deleteGroupUser = async (req, res, next) => {
+    try {
+        const reqUser = req.user;
+        const { groupId, userId } = req.params;
+        const userRole = await GroupMembers.findOne({ where: { groupId:groupId, userId:reqUser.id }});
+        if(!userRole.admin){
+            return res.status(403).json({ success: false, message: 'Unauthorized User'});
+        }
+        const deleted = await GroupMembers.destroy({ where: { groupId: groupId, userId: userId }});
+        if(deleted){
+            res.json({ success: true, message: 'User deleted Successfuly' });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ success: false, message: 'Something went wrong' });
+    }
+}
+
 module.exports = {
     createGroup,
     userGroups,
-    addGroupUser
+    addGroupUser,
+    getGroupUsers,
+    deleteGroupUser
 }

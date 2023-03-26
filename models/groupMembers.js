@@ -8,6 +8,11 @@ const GroupMembers = sequelize.define('groupMembers', {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
+    },
+    admin: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
     }
 });
 

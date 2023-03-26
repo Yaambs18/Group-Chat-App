@@ -72,7 +72,22 @@ img {
     background-color: aliceblue;
 }
 
-.chat-card .chat-card-title button{
+#chat-msgs-box li{
+    list-style: none;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    background: rgba(206, 243, 250, 0.555);
+    margin: 2px;
+}
+
+#chat-msgs-box li .rmvBtn{
+    margin-left: auto;
+    font-size: small;
+}
+
+.chat-card .chat-card-title .addBtn{
+    margin-right: 5px;
     margin-left: auto;
 }
 
