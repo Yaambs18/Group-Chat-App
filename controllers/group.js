@@ -1,20 +1,26 @@
 const Group = require('../models/group');
 const User = require('../models/user');
 const GroupMembers = require('../models/groupMembers');
+const sequelize = require('../util/database');
 
 const createGroup = async (req, res, next) => {
     const user = req.user;
     try {
+        const transaction = sequelize.transaction();
         const group = await user.createGroup({
             groupName: req.body.groupName
-        });
+        },{transaction: transaction}
+        );
         await GroupMembers.update(
             { admin: true},
-            { where: { groupId: group.id, userId: user.id }}
+            { where: { groupId: group.id, userId: user.id }},
+            {transaction: transaction}
         )
+        await transaction.commit();
         res.status(201).json({ success: true, group})
     }
     catch(error) {
+        await transaction.rollback();
         console.log(error);
         res.status(500).json({ success: false, message: 'Something went wrong' });
     }

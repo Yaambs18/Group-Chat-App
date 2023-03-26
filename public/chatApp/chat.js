@@ -29,6 +29,7 @@ async function sendMsg(category, categoryId) {
             const result = await axios.post(`http://localhost:3000/chat/userMsg/${categoryId}`, msgObj, { headers: {'Authorization': token }});
             displayMessage(result.data.message);
         }
+        msgData.value = '';
     }
     catch(error) {
         console.log(error);
@@ -71,7 +72,7 @@ async function getMessages(category, categoryId) {
             allMsgs.splice(0, allMsgs.length - 12);
         }
         // console.log(resMessages);
-        localStorage.setItem('oldMsgs', JSON.stringify(allMsgs));
+        // localStorage.setItem('oldMsgs', JSON.stringify(allMsgs));
     }
     catch(error) {
         console.log(error);

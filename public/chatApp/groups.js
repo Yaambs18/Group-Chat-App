@@ -115,7 +115,7 @@ function showCardTitle(groupObj) {
 
     }
     const optionBtn = document.createElement('button');
-    optionBtn.className = "btn btn-secondary";
+    optionBtn.className = "addBtn btn btn-secondary";
     optionBtn.textContent = `Show Users`;
 
     optionBtn.addEventListener('click', () => getGroupUsers(groupObj));
@@ -125,7 +125,10 @@ function showCardTitle(groupObj) {
     const sendMsgBtn = document.getElementById('user-msg-box');
     sendMsgBtn.addEventListener('submit', () => sendMsg('group', groupObj.id));
 
-    getMessages('group', group.id);
+    setInterval(() => {
+        getMessages('group', groupObj.id);
+    }, 1000);
+
 }
 
 async function addGroupUsers(groupId) {

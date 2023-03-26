@@ -55,10 +55,10 @@ const getMessages = async (req, res, next) => {
         else if(category === 'user'){
             const result = await Chat.findAll({
                 where: {
-                    id: {
-                        [Op.gt]: lastMsgId
-                    },
-                    receiverUserId: categoryId
+                    [Op.or]: [
+                        {userId: user.id},
+                        {receiverUserId: categoryId}
+                    ]
                 }
             });
             res.status(201).json({ success: true, messages: result});

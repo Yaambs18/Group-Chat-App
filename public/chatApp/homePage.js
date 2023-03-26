@@ -97,7 +97,46 @@ function showUsers(user) {
     aboutDiv.appendChild(userStatus);
 
     userLi.appendChild(aboutDiv);
+    userLi.addEventListener('click', () => {
+        showUserCardTitle(user);
+    });
     userList.append(userLi);
+}
+
+function showUserCardTitle(userObj) {
+    const chatCardTitleDiv = document.querySelector('.chat-card-title');
+
+    chatCardTitleDiv.innerHTML = '';
+
+    const userImg = document.createElement('img');
+    userImg.classList = "rounded-5";
+    userImg.src = "https://bootdey.com/img/Content/avatar/avatar2.png";
+    userImg.alt="avatar";
+    chatCardTitleDiv.appendChild(userImg);
+
+    const aboutDiv = document.createElement('div');
+    aboutDiv.className = 'about';
+
+    const userName = document.createElement('h6');
+    userName.classList = "name m-0 ps-2"
+    userName.textContent = `${userObj.name}`;
+    aboutDiv.appendChild(userName);
+
+    const userStatus = document.createElement('i');
+    userStatus.classList = "fa fa-circle online ps-2";
+    userStatus.textContent = ' online';
+    aboutDiv.appendChild(userStatus);
+
+    chatCardTitleDiv.appendChild(aboutDiv);
+
+    const sendMsgBtn = document.getElementById('user-msg-box');
+    sendMsgBtn.addEventListener('submit', () => {
+        sendMsg('user', userObj.id)
+    });
+
+    setInterval(() => {
+        getMessages('user', userObj.id);
+    }, 1000);
 }
 
 function userJoinedChat(user) {
