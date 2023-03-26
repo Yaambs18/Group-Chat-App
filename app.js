@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
@@ -24,6 +25,10 @@ app.use(express.json());
 app.use('/user', userRoutes);
 app.use('/chat', chatRoutes);
 app.use('/group', groupRoutes);
+
+app.use((req, res) => {
+    res.sendFile(path.join(__dirname, `public/${req.url}`));
+  })
 
 User.hasMany(Chat);
 Chat.belongsTo(User, { constraints: true, onDelete: 'CASCADE'});
