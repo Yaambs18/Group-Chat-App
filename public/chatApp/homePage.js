@@ -134,9 +134,9 @@ function showUserCardTitle(userObj) {
         sendMsg('user', userObj.id)
     });
 
-    // setInterval(() => {
+    setInterval(() => {
         getMessages('user', userObj.id);
-    // }, 60000);
+    }, 15000);
 }
 
 function userJoinedChat(user) {

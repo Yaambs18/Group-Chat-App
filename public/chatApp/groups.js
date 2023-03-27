@@ -127,7 +127,7 @@ function showCardTitle(groupObj) {
 
     setInterval(() => {
         getMessages('group', groupObj.id);
-    }, 1000);
+    }, 15000);
 
 }
 
