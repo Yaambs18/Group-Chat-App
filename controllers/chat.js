@@ -1,5 +1,23 @@
+// const socketio = require('socket.io');
+const fs = require('fs');
+
 const Chat = require('../models/chat');
 const { Op } = require('sequelize');
+
+const S3Services = require('../services/S3services');
+
+// const io = socketio(4000, {
+//       cors: {
+//         origin: "http://44.193.6.13:3000",
+//         methods: ["GET", "POST"],
+//         credentials: true,
+//       },
+//     });
+
+// const chatIo = io.of('/chat');
+// chatIo.on('connection', socket => {
+//     console.log('connected');
+// })
 
 const addUserMsg = async (req, res, next) => {
     const user = req.user;
@@ -71,8 +89,57 @@ const getMessages = async (req, res, next) => {
     }
 }
 
+const uploadUserMsgFile = async (req, res, next) => {
+    const user = req.user;
+    try{
+        const userId = req.params.userId;
+        const uploadedFile = req.files;
+        if (!req.files || Object.keys(req.files).length === 0) {
+            return res.status(400).send('No files were uploaded.');
+        }
+        const fileUrl = await S3Services.uploadToS3(uploadedFile.file.data, uploadedFile.file.name);
+        const result = await user.createChat({
+            message: uploadedFile.file.name,
+            name: user.name,
+            receiverUserId: userId,
+            msgFile: fileUrl
+        });
+        res.status(201).json({ success: true, message: result});
+    }
+    catch(error) {
+        console.log(error);
+        res.status(500).json({ success: false, message: 'Something went wrong' });
+    }
+}
+
+const uploadGrpMsgFile = async (req, res, next) => {
+    const user = req.user;
+    try{
+        const grpId = req.params.groupId;
+        const uploadedFile = req.files;
+        if (!req.files || Object.keys(req.files).length === 0) {
+            return res.status(400).send('No files were uploaded.');
+        }
+        const fileUrl = await S3Services.uploadToS3(uploadedFile.file.data, uploadedFile.file.name);
+        const result = await user.createChat({
+            message: uploadedFile.file.name,
+            name: user.name,
+            groupId: grpId,
+            msgFile: fileUrl
+        });
+        await result.setGroup(grpId);
+        res.status(201).json({ success: true, message: result});
+    }
+    catch(error) {
+        console.log(error);
+        res.status(500).json({ success: false, message: 'Something went wrong' });
+    }
+}
+
 module.exports = {
     addUserMsg,
     getMessages,
-    addGrpMsg
+    addGrpMsg,
+    uploadUserMsgFile,
+    uploadGrpMsgFile
 }

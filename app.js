@@ -26,9 +26,7 @@ app.use('/user', userRoutes);
 app.use('/chat', chatRoutes);
 app.use('/group', groupRoutes);
 
-app.use((req, res) => {
-    res.sendFile(path.join(__dirname, `public/${req.url}`));
-  })
+app.use(express.static(path.join(__dirname, `public`)));
 
 User.hasMany(Chat);
 Chat.belongsTo(User, { constraints: true, onDelete: 'CASCADE'});

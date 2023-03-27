@@ -17,19 +17,36 @@ function parseJwt (token) {
 async function sendMsg(category, categoryId) {
     event.preventDefault();
     try {
-        const msgObj = {
-            token: token,
-            msg: msgData.value
+        const file = document.getElementById('file');
+
+        if(file.files.length > 0){
+            const uploadedFile = file.files[0];
+            const newFile = new FormData();
+            newFile.append('file', file.files[0]);
+            if(category==='group'){
+                const result = await axios.post(`http://44.193.6.13:3000/chat/uploadFile/grpMsg/${categoryId}`, newFile, { headers: {"content-type": "multipart/form-data", 'Authorization': token }});
+                displayMessage(result.data.message);
+            }
+            else if(category === 'user'){
+                const result = await axios.post(`http://44.193.6.13:3000/chat/uploadFile/userMsg/${categoryId}`, newFile, { headers: {"content-type": "multipart/form-data", 'Authorization': token }});
+                displayMessage(result.data.message);
+            }
         }
-        if(category==='group'){
-            const result = await axios.post(`http://3.238.138.102:3000/chat/grpMsg/${categoryId}`, msgObj, { headers: {'Authorization': token }});
-            displayMessage(result.data.message);
+        else{
+            const msgObj = {
+                token: token,
+                msg: msgData.value
+            }
+            if(category==='group'){
+                const result = await axios.post(`http://44.193.6.13:3000/chat/grpMsg/${categoryId}`, msgObj, { headers: { 'Authorization': token }});
+                displayMessage(result.data.message);
+            }
+            else if(category === 'user'){
+                const result = await axios.post(`http://44.193.6.13:3000/chat/userMsg/${categoryId}`, msgObj, { headers: {'Authorization': token }});
+                displayMessage(result.data.message);
+            }
+            msgData.value = '';
         }
-        else if(category === 'user'){
-            const result = await axios.post(`http://localhost:3000/chat/userMsg/${categoryId}`, msgObj, { headers: {'Authorization': token }});
-            displayMessage(result.data.message);
-        }
-        msgData.value = '';
     }
     catch(error) {
         console.log(error);
@@ -56,7 +73,7 @@ async function getMessages(category, categoryId) {
             console.log(oldMsgs);
             lastMsgId = oldMsgs[oldMsgs.length-1].id;
         }
-        const res = await axios.get(`http://3.238.138.102:3000/chat/messages?category=${category}&categoryId=${categoryId}&lastMsgId=${lastMsgId}`, { headers: { 'Authorization': token }});
+        const res = await axios.get(`http://44.193.6.13:3000/chat/messages?category=${category}&categoryId=${categoryId}&lastMsgId=${lastMsgId}`, { headers: { 'Authorization': token }});
         // console.log(res.data);
         const resMessages = res.data.messages;
         for(message of resMessages){
@@ -91,13 +108,25 @@ function displayMessage(messageObj) {
     if(messageObj.userId === userData.userId){
         const msgDiv = document.createElement('div');
         msgDiv.className = 'my-msg';
-        msgDiv.innerHTML = `<b>You</b>: ${messageObj.message}`;
+        if(messageObj.msgFile){
+            msgDiv.innerHTML = `<b>You</b>:
+            <button class=" btn btn-primary" id="downloadReport" onclick="downloadReport('${messageObj.msgFile}')" >${messageObj.message}</button>`; 
+        }
+        else{
+            msgDiv.innerHTML = `<b>You</b>: ${messageObj.message}`;
+        }
         chatBox.appendChild(msgDiv);
     }
     else {
         const msgDiv = document.createElement('div');
         msgDiv.className = 'others-msg';
-        msgDiv.innerHTML = `<b>${messageObj.name}</b>: ${messageObj.message}`;
+        if(messageObj.msgFile){
+            msgDiv.innerHTML = `<b>${messageObj.name}</b>
+            <button class="btn btn-primary" id="downloadReport" onclick="downloadReport('${messageObj.msgFile}')" >${messageObj.message}</button>`; 
+        }
+        else{
+            msgDiv.innerHTML = `<b>${messageObj.name}</b>: ${messageObj.message}`;
+        }
         chatBox.appendChild(msgDiv);
     }
 }

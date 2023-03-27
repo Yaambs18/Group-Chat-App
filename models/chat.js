@@ -20,6 +20,10 @@ const Chat = sequelize.define('chat', {
     receiverUserId: {
         type: Sequelize.INTEGER,
         allowNull: true
+    },
+    msgFile: {
+        type: Sequelize.STRING,
+        allowNull: true
     }
 })
 

@@ -6,7 +6,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 
     try{
-        const res = await axios.get(`http://3.238.138.102:3000/user`, { headers: {'Authorization': token }});
+        const res = await axios.get(`http://44.193.6.13:3000/user`, { headers: {'Authorization': token }});
         const users = res.data;
         for(user of users) {
             userJoinedChat(user);
@@ -26,7 +26,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 // setInterval(async () => {
 //     try{
-//         // const res = await axios.get(`http://localhost:3000/user`, { headers: {'Authorization': token }});
+//         // const res = await axios.get(`http://44.193.6.13:3000/user`, { headers: {'Authorization': token }});
 //         // const users = res.data;
 //         // for(user of users) {
 //         //     userJoinedChat(user);
@@ -54,7 +54,7 @@ async function showPeople() {
         const usersListDiv = document.getElementById('users-list');
         usersListDiv.style.display = 'block';
 
-        const res = await axios.get(`http://3.238.138.102:3000/user`, { headers: {'Authorization': token }});
+        const res = await axios.get(`http://44.193.6.13:3000/user`, { headers: {'Authorization': token }});
         const users = res.data;
         usersListDiv.innerHTML = '';
         for(user of users) {
@@ -134,9 +134,9 @@ function showUserCardTitle(userObj) {
         sendMsg('user', userObj.id)
     });
 
-    setInterval(() => {
+    // setInterval(() => {
         getMessages('user', userObj.id);
-    }, 1000);
+    // }, 60000);
 }
 
 function userJoinedChat(user) {
@@ -155,3 +155,15 @@ logOutBtn.addEventListener('click', async () => {
     localStorage.removeItem('token');
     window.location.href = '../loginSignup/login.html';
 });
+
+downloadReport = async function (fileUrl) {
+    try {
+            var a = document.createElement('a');
+            a.href = fileUrl;
+            a.download = event.target.textContent;
+            a.click();
+    }
+    catch (err) {
+        alert(err);
+    }
+}
