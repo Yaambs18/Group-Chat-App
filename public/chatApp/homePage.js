@@ -6,7 +6,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 
     try{
-        const res = await axios.get(`http://44.193.6.13:3000/user`, { headers: {'Authorization': token }});
+        const res = await axios.get(`http://44.211.89.63:3000/user`, { headers: {'Authorization': token }});
         const users = res.data;
         for(user of users) {
             userJoinedChat(user);
@@ -26,7 +26,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 // setInterval(async () => {
 //     try{
-//         // const res = await axios.get(`http://44.193.6.13:3000/user`, { headers: {'Authorization': token }});
+//         // const res = await axios.get(`http://44.211.89.63:3000/user`, { headers: {'Authorization': token }});
 //         // const users = res.data;
 //         // for(user of users) {
 //         //     userJoinedChat(user);
@@ -54,7 +54,7 @@ async function showPeople() {
         const usersListDiv = document.getElementById('users-list');
         usersListDiv.style.display = 'block';
 
-        const res = await axios.get(`http://44.193.6.13:3000/user`, { headers: {'Authorization': token }});
+        const res = await axios.get(`http://44.211.89.63:3000/user`, { headers: {'Authorization': token }});
         const users = res.data;
         usersListDiv.innerHTML = '';
         for(user of users) {

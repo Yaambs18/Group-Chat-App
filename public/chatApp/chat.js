@@ -24,11 +24,11 @@ async function sendMsg(category, categoryId) {
             const newFile = new FormData();
             newFile.append('file', file.files[0]);
             if(category==='group'){
-                const result = await axios.post(`http://44.193.6.13:3000/chat/uploadFile/grpMsg/${categoryId}`, newFile, { headers: {"content-type": "multipart/form-data", 'Authorization': token }});
+                const result = await axios.post(`http://44.211.89.63:3000/chat/uploadFile/grpMsg/${categoryId}`, newFile, { headers: {"content-type": "multipart/form-data", 'Authorization': token }});
                 displayMessage(result.data.message);
             }
             else if(category === 'user'){
-                const result = await axios.post(`http://44.193.6.13:3000/chat/uploadFile/userMsg/${categoryId}`, newFile, { headers: {"content-type": "multipart/form-data", 'Authorization': token }});
+                const result = await axios.post(`http://44.211.89.63:3000/chat/uploadFile/userMsg/${categoryId}`, newFile, { headers: {"content-type": "multipart/form-data", 'Authorization': token }});
                 displayMessage(result.data.message);
             }
         }
@@ -38,11 +38,11 @@ async function sendMsg(category, categoryId) {
                 msg: msgData.value
             }
             if(category==='group'){
-                const result = await axios.post(`http://44.193.6.13:3000/chat/grpMsg/${categoryId}`, msgObj, { headers: { 'Authorization': token }});
+                const result = await axios.post(`http://44.211.89.63:3000/chat/grpMsg/${categoryId}`, msgObj, { headers: { 'Authorization': token }});
                 displayMessage(result.data.message);
             }
             else if(category === 'user'){
-                const result = await axios.post(`http://44.193.6.13:3000/chat/userMsg/${categoryId}`, msgObj, { headers: {'Authorization': token }});
+                const result = await axios.post(`http://44.211.89.63:3000/chat/userMsg/${categoryId}`, msgObj, { headers: {'Authorization': token }});
                 displayMessage(result.data.message);
             }
             msgData.value = '';
@@ -73,7 +73,7 @@ async function getMessages(category, categoryId) {
             console.log(oldMsgs);
             lastMsgId = oldMsgs[oldMsgs.length-1].id;
         }
-        const res = await axios.get(`http://44.193.6.13:3000/chat/messages?category=${category}&categoryId=${categoryId}&lastMsgId=${lastMsgId}`, { headers: { 'Authorization': token }});
+        const res = await axios.get(`http://44.211.89.63:3000/chat/messages?category=${category}&categoryId=${categoryId}&lastMsgId=${lastMsgId}`, { headers: { 'Authorization': token }});
         // console.log(res.data);
         const resMessages = res.data.messages;
         for(message of resMessages){

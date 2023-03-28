@@ -8,7 +8,7 @@ const S3Services = require('../services/S3services');
 
 // const io = socketio(4000, {
 //       cors: {
-//         origin: "http://44.193.6.13:3000",
+//         origin: "http://44.211.89.63:3000",
 //         methods: ["GET", "POST"],
 //         credentials: true,
 //       },
