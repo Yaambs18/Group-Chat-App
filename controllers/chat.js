@@ -1,23 +1,7 @@
-// const socketio = require('socket.io');
-const fs = require('fs');
-
 const Chat = require('../models/chat');
 const { Op } = require('sequelize');
 
 const S3Services = require('../services/S3services');
-
-// const io = socketio(4000, {
-//       cors: {
-//         origin: "http://44.211.89.63:3000",
-//         methods: ["GET", "POST"],
-//         credentials: true,
-//       },
-//     });
-
-// const chatIo = io.of('/chat');
-// chatIo.on('connection', socket => {
-//     console.log('connected');
-// })
 
 const addUserMsg = async (req, res, next) => {
     const user = req.user;
@@ -72,12 +56,22 @@ const getMessages = async (req, res, next) => {
         }
         else if(category === 'user'){
             const result = await Chat.findAll({
-                where: {
+              where: {
+                [Op.or]: [
+                  {
                     [Op.and]: [
-                        {userId: user.id},
-                        {receiverUserId: categoryId}
-                    ]
-                }
+                      { userId: user.id },
+                      { receiverUserId: categoryId },
+                    ],
+                  },
+                  {
+                    [Op.and]: [
+                      { userId: categoryId },
+                      { receiverUserId: user.id },
+                    ],
+                  },
+                ],
+              },
             });
             res.status(201).json({ success: true, messages: result});
         }

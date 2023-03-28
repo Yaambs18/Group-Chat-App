@@ -6,10 +6,13 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 
     try{
-        const res = await axios.get(`http://44.211.89.63:3000/user`, { headers: {'Authorization': token }});
+        const res = await axios.get(`http://44.200.225.63:3000/user`, { headers: {'Authorization': token }});
         const users = res.data;
         for(user of users) {
             userJoinedChat(user);
+            if(user.id === parseJwt(localStorage.getItem('token')).userId){
+                continue;
+            }
             showUsers(user);
         }
         // getMessages();
@@ -26,7 +29,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 // setInterval(async () => {
 //     try{
-//         // const res = await axios.get(`http://44.211.89.63:3000/user`, { headers: {'Authorization': token }});
+//         // const res = await axios.get(`http://44.200.225.63:3000/user`, { headers: {'Authorization': token }});
 //         // const users = res.data;
 //         // for(user of users) {
 //         //     userJoinedChat(user);
@@ -54,10 +57,13 @@ async function showPeople() {
         const usersListDiv = document.getElementById('users-list');
         usersListDiv.style.display = 'block';
 
-        const res = await axios.get(`http://44.211.89.63:3000/user`, { headers: {'Authorization': token }});
+        const res = await axios.get(`http://44.200.225.63:3000/user`, { headers: {'Authorization': token }});
         const users = res.data;
         usersListDiv.innerHTML = '';
         for(user of users) {
+            if(user.id === parseJwt(localStorage.getItem('token')).userId){
+                continue;
+            }
             showUsers(user);
         }
     }
@@ -137,6 +143,12 @@ function showUserCardTitle(userObj) {
     setInterval(() => {
         getMessages('user', userObj.id);
     }, 15000);
+
+    // const token = localStorage.getItem('token');
+
+    // console.log(`userMessage${userObj.id}${parseJwt(token).userId}`);
+    // var socket = io('http://localhost:4000/chat');
+    // socket.on(`userMessage${userObj.id}${parseJwt(token).userId}`, msg => displayMessage(msg));
 }
 
 function userJoinedChat(user) {
